@@ -39,6 +39,24 @@ def hello_world():
       f.write(base64.b64decode(fotos[0].replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
   return {"ok": 200},200
 
+#ruta de actualizar foto
+@app.route('/updatePhoto',methods=['GET'])
+def updatePhoto():
+  if request.method == 'GET':
+    foto = conexion,request.values.get('foto')
+    nombre = conexion,request.values.get('nombre').strip()
+    cedula = conexion,request.values.get('cedula').strip()
+    #borra modelo
+    if os.path.exists('Data/representations_vgg_face.pkl'):
+      os.remove('Data/representations_vgg_face.pkl',dir_fd=None) 
+    #borra imagen
+    if os.path.exists('Data/'+nombre+'-'+cedula+'/imagen.jpg'):
+      os.remove('Data/'+nombre+'-'+cedula+'/imagen.jpg',dir_fd=None)    
+    #Escribe nueva imagen
+    with open('Data/'+nombre+'-'+cedula+'/imagen.jpg', 'wb') as f:
+      f.write(base64.b64decode(fotos[0].replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
+  return {"ok": 200},200
+
 #rutar para verificar
 @app.route('/verify',methods=['POST'])
 def verify():

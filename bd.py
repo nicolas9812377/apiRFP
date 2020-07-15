@@ -23,7 +23,6 @@ def consulta(conexion,id_persona):
     cur = conexion.cursor()
        
     # Ejecución de una consulta con la version de PostgreSQL
-    print('Personas:')
     cur.execute('select persona.id_persona,nombres_persona,apellidos_persona,cedula_persona from fotos, persona where fotos.id_persona = persona.id_persona  and persona.id_persona = '+id_persona+'group by persona.id_persona,nombres_persona,apellidos_persona,cedula_persona')
     
     # Recorremos los resultados y los mostramos
@@ -39,6 +38,8 @@ def consulta(conexion,id_persona):
     # Cierre de la comunicación con PostgreSQL
     cur.close()
     return personas,fotos
+
+
 
 def validar(conexion,cedula):
     # creación del cursor
