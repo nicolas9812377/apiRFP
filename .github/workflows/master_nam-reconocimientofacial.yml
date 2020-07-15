@@ -31,4 +31,4 @@ jobs:
       with:
         app-name: 'nam-reconocimientofacial'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_74bb59f512b34f208e49d26580009a99 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_73aa03206b4648a781620ab19ecd30f1 }}
