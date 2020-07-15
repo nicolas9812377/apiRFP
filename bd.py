@@ -32,7 +32,7 @@ def consulta(conexion,id_persona):
     for id_persona in cur.fetchall() :
         cur.execute('SELECT foto from fotos where id_persona = '+str(id_persona[0]))
         foto = cur.fetchone()
-        personas.append(id_persona[1]+" "+id_persona[2])
+        personas.append(id_persona[1].strip()+" "+id_persona[2].strip())
         personas.append(id_persona[3])
         fotos.append(foto[0])    
         

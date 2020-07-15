@@ -31,7 +31,6 @@ vggface_model = VGGFace.loadModel()
 @app.route('/',methods=['GET'])
 def hello_world():
   if request.method == 'GET':
-    print(request.values.get('id_persona'))
     personas,fotos = base.consulta(conexion,request.values.get('id_persona'))
     if os.path.exists('Data/representations_vgg_face.pkl'):
       os.remove('Data/representations_vgg_face.pkl',dir_fd=None)    
