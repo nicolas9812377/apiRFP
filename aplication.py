@@ -7,7 +7,6 @@ from PIL import Image
 from io import BytesIO
 import bd as base
 import os
-import urllib.parse
 
 ##iniciar conexion con bd
 conexion = base.conectar()
@@ -44,20 +43,24 @@ def hello_world():
 @app.route('/updatePhoto',methods=['POST'])
 def updatePhoto():
   if request.method == 'POST':
-    foto = request.values.get('foto').strip()
-    nombre = urllib.parse.unquote(request.values.get('nombre').strip())
-    cedula = request.values.get('cedula').strip()
-    print(nombre,cedula)
-    #borra modelo
-    if os.path.exists('Data/representations_vgg_face.pkl'):
-      os.remove('Data/representations_vgg_face.pkl') 
-    #borra imagen
-    if os.path.exists('Data/'+nombre+'-'+cedula+'/imagen.jpg'):
-      os.remove('Data/'+nombre+'-'+cedula+'/imagen.jpg')    
-    #Escribe nueva imagen
-    with open('Data/'+nombre+'-'+cedula+'/imagen.jpg', 'wb') as f:
-      f.write(base64.b64decode(foto.replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
-  return {"ok": 200},200
+    try:
+      resp = request.get_json()
+      foto = resp['foto']
+      nombre = resp['nombre']
+      cedula = resp['cedula']
+      #borra modelo
+      if os.path.exists('Data/representations_vgg_face.pkl'):
+        os.remove('Data/representations_vgg_face.pkl') 
+      #borra imagen
+      if os.path.exists('Data/'+nombre+'-'+str(cedula)+'/imagen.jpg'):
+        os.remove('Data/'+nombre+'-'+str(cedula)+'/imagen.jpg')    
+      #Escribe nueva imagen
+      with open('Data/'+nombre+'-'+str(cedula)+'/imagen.jpg', 'wb') as f:
+        f.write(base64.b64decode(foto.replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
+      return {"ok": 200},200
+    except Exception as err:
+      print(err)
+  
 
 #rutar para verificar
 @app.route('/verify',methods=['POST'])
