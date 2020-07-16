@@ -40,9 +40,9 @@ def hello_world():
   return {"ok": 200},200
 
 #ruta de actualizar foto
-@app.route('/updatePhoto',methods=['GET'])
+@app.route('/updatePhoto',methods=['POST'])
 def updatePhoto():
-  if request.method == 'GET':
+  if request.method == 'POST':
     foto = conexion,request.values.get('foto')
     nombre = conexion,request.values.get('nombre').strip()
     cedula = conexion,request.values.get('cedula').strip()
