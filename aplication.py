@@ -7,6 +7,7 @@ from PIL import Image
 from io import BytesIO
 import bd as base
 import os
+import urllib.parse
 
 ##iniciar conexion con bd
 conexion = base.conectar()
@@ -44,7 +45,7 @@ def hello_world():
 def updatePhoto():
   if request.method == 'POST':
     foto = request.values.get('foto')
-    nombre = request.values.get('nombre')
+    nombre = urllib.parse.unquote(request.values.get('nombre'))
     cedula = request.values.get('cedula')
     print(nombre,cedula)
     #borra modelo
