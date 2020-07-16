@@ -66,24 +66,22 @@ def validar(conexion,cedula):
 def registro(conexion,cedula,acceso):
     # creación del cursor
     cur = conexion.cursor()
-
     cur.execute("select habitante_vivienda.num_vivienda,habitante_vivienda.id_tipo_vivienda,habitante_vivienda.id_persona,habitante_vivienda.id_tipo_persona,habitante_vivienda.id_estado_acceso from habitante_vivienda,persona where persona.id_persona = habitante_vivienda.id_persona and persona.cedula_persona = '" + str(cedula)+"'")
     # Ejecución de una consulta con la version de PostgreSQL
-    habitante = cur.fetchall()
+    habitante = list(cur.fetchall()[0]) 
     date = datetime.now()
     try:
-        cur.execute("INSERT INTO detalle_acceso(num_vivienda, id_tipo_vivienda, id_persona, id_tipo_persona, id_estado_acceso, fecha_ingreso_salida, hora_ingreso_salida,detalle_acceso) VALUES ('"+habitante[0]+"',"+habitante[1]+","+habitante[2]+","+habitante[3]+","+habitante[4]+",'"+str(date.date())+"','"+str(date.time())+"','"+ acceso+"')")
+        cur.execute("INSERT INTO detalle_acceso(num_vivienda, id_tipo_vivienda, id_persona, id_tipo_persona, id_estado_acceso, fecha_ingreso_salida, hora_ingreso_salida,detalle_acceso) VALUES ('"+habitante[0]+"',"+str(habitante[1])+","+str(habitante[2])+","+str(habitante[3])+","+str(habitante[4])+",'"+str(date.date())+"','"+str(date.time())+"','"+ acceso+"')")
+        conexion.commit()
         # Cierre de la comunicación con PostgreSQL
         cur.close()
         return True
-
+    
     except Exception as err:
         print(err)
         # Cierre de la comunicación con PostgreSQL
         cur.close()
         return False
-    
-
 
 def cerrar(conexion):
     if conexion is not None:

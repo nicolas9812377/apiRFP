@@ -49,10 +49,10 @@ def updatePhoto():
     print(nombre,cedula)
     #borra modelo
     if os.path.exists('Data/representations_vgg_face.pkl'):
-      os.remove('Data/representations_vgg_face.pkl',dir_fd=None) 
+      os.remove('Data/representations_vgg_face.pkl') 
     #borra imagen
     if os.path.exists('Data/'+nombre+'-'+cedula+'/imagen.jpg'):
-      os.remove('Data/'+nombre+'-'+cedula+'/imagen.jpg',dir_fd=None)    
+      os.remove('Data/'+nombre+'-'+cedula+'/imagen.jpg')    
     #Escribe nueva imagen
     with open('Data/'+nombre+'-'+cedula+'/imagen.jpg', 'wb') as f:
       f.write(base64.b64decode(foto.replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
