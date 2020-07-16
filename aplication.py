@@ -44,9 +44,9 @@ def hello_world():
 @app.route('/updatePhoto',methods=['POST'])
 def updatePhoto():
   if request.method == 'POST':
-    foto = request.values.get('foto')
-    nombre = urllib.parse.unquote(request.values.get('nombre'))
-    cedula = request.values.get('cedula')
+    foto = request.values.get('foto').strip()
+    nombre = urllib.parse.unquote(request.values.get('nombre').strip())
+    cedula = request.values.get('cedula').strip()
     print(nombre,cedula)
     #borra modelo
     if os.path.exists('Data/representations_vgg_face.pkl'):
