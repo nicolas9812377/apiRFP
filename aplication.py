@@ -55,7 +55,7 @@ def updatePhoto():
       os.remove('Data/'+nombre+'-'+cedula+'/imagen.jpg',dir_fd=None)    
     #Escribe nueva imagen
     with open('Data/'+nombre+'-'+cedula+'/imagen.jpg', 'wb') as f:
-      f.write(base64.b64decode(fotos[0].replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
+      f.write(base64.b64decode(foto.replace('data:image/jpg;base64,','').replace('data:image/png;base64,','')))
   return {"ok": 200},200
 
 #rutar para verificar
