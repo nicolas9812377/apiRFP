@@ -42,22 +42,29 @@ def consulta(conexion,id_persona):
 
 
 def validar(conexion,cedula):
-    # creación del cursor
-    cur = conexion.cursor()
-    
-    #obtener fecha y año actual
-    date = datetime.now()
-    anio = date.year
-    mesn = date.month
-    mes=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-    # Ejecución de una consulta con la version de PostgreSQL
-    cur.execute("select * from cobros,persona where cobros.id_persona = persona.id_persona and persona.cedula_persona = '"+str(cedula)+"' and mes_pago = '"+mes[mesn-1]+"' and anio_pago = '"+str(anio)+"' and estado = '"+'Pagado'+"'")
+    try:
+        # creación del cursor
+        cur = conexion.cursor()
+        
+        #obtener fecha y año actual
+        date = datetime.now()
+        anio = date.year
+        mesn = date.month
+        mes=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+        #consulta vivienda persona
+        cur.execute("select habitante_vivienda.num_vivienda from habitante_vivienda,persona where persona.id_persona = habitante_vivienda.id_persona and persona.cedula_persona = '"+str(cedula)+"'")
+        vivienda = cur.fetchone()
 
-    alicuota = cur.fetchall()
-    if(len(alicuota) == 0):
-        return False
-    if(len(alicuota) == 1):
-        return True 
+        # Ejecución de una consulta de pago
+        cur.execute("select * from cobros where mes_pago = '"+mes[mesn-1]+"' and anio_pago = '"+str(anio)+"' and estado = '"+'Pagado'+"' and num_vivienda = '"+vivienda[0]+"'")
+
+        alicuota = cur.fetchall()
+        if(len(alicuota) == 0):
+            return False
+        if(len(alicuota) == 1):
+            return True 
+    except Exception as err:
+        print(err)
     # Cierre de la comunicación con PostgreSQL
     cur.close()
     return False
