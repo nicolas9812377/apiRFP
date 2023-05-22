@@ -2,5 +2,5 @@ gunicorn==20.0.4
 deepface
 Flask>=1.1.2
 psycopg2==2.8.5
-requests==2.24.0
+requests==2.31.0
 opencv-python-headless
